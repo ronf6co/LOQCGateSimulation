@@ -12,7 +12,7 @@ if __name__ == '__main__':
     fp = FusionGate(error_angle=0.01, error_axis=[1, 0, 0])
     fi = FusionGate(error_angle=-0.0, error_axis=[1, 0, 0])
 
-    co1pm = c1.fusion(other=c2, n1=1, n2=2, fusion_gate=fm, clicks='00')
+    co1pm = c1.fusion(other=c2, n1=1, n2=2, fusion_gate=f  m, clicks='00')
     co2pm = co1pm.fusion(other=c3, n1=1, n2=2, fusion_gate=fp, clicks='00')
     print(co2pm)
 
