@@ -1,3 +1,5 @@
+from shutil import _stat
+
 import numpy as np
 from dec2bin import *
 
@@ -31,17 +33,20 @@ class Cluster:
                 x[i] = -x[i]
         return x
 
-    def fusion(self, other, n1, n2, fusion_gate, clicks):
+    def fusion(self, other, fusion_gate, clicks):
         # clicks - '00'/'01'/'10'/'11'
         # fusion_gate - object
+
+        n1 = int(np.log2(len(self.q_state)))-1
+        U1 = np.eye(2 ** n1)
+        n2 = int(np.log2(len(other.q_state)))-1
+        U2 = np.eye(2 ** n2)
 
         new_c_q_state = np.kron(self.q_state, other.q_state)
 
         ZZ = fusion_gate.U[int(clicks, 2)]
 
-        U1 = np.eye(2 ** n1)
         U = np.kron(U1, ZZ)
-        U2 = np.eye(2 ** (int(np.log2(len(new_c_q_state))) - n2 - 1))
         U = np.kron(U, U2)
         new_c_q_state = np.matmul(U, new_c_q_state)
         normalize = np.sqrt(sum(np.multiply(new_c_q_state, np.conj(new_c_q_state))))
@@ -51,6 +56,14 @@ class Cluster:
         new_c_q_state = new_c_q_state * np.exp(-1j * phase1)
 
         return Cluster(new_c_q_state)
+
+    @staticmethod
+    def fuseLinearClusters(size_of_cluster, clicks, fusions):
+        c_list = [Cluster(size_of_cluster) for _ in range(len(fusions) + 1)]
+        c_out = c_list[0]
+        for i in range(1, len(c_list)):
+            c_out = c_out.fusion(other=c_list[i], fusion_gate=fusions[i - 1], clicks=clicks)
+        return c_out
 
     def __str__(self):
         s = ""
