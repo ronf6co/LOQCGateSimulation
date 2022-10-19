@@ -1,5 +1,3 @@
-from shutil import _stat
-
 import numpy as np
 from dec2bin import *
 
@@ -59,10 +57,9 @@ class Cluster:
 
     @staticmethod
     def fuseLinearClusters(size_of_cluster, clicks, fusions):
-        c_list = [Cluster(size_of_cluster) for _ in range(len(fusions) + 1)]
-        c_out = c_list[0]
-        for i in range(1, len(c_list)):
-            c_out = c_out.fusion(other=c_list[i], fusion_gate=fusions[i - 1], clicks=clicks)
+        c_out = Cluster(size_of_cluster)
+        for i in range(1, len(fusions)+1):
+            c_out = c_out.fusion(other=Cluster(size_of_cluster), fusion_gate=fusions[i - 1], clicks=clicks)
         return c_out
 
     def __str__(self):

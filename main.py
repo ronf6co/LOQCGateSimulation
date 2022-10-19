@@ -34,7 +34,7 @@ def runOverPMCombinations(fi,fp,fm,cluster_size,clicks,fusions_amount):
 if __name__ == '__main__':
     print("O-O ~ O-O")
 
-    error_angle = 0.1
+    error_angle = 0.05
     error_axis = [1, 0, 0]
     fm = FusionGate(error_angle=-error_angle, error_axis=error_axis)
     fp = FusionGate(error_angle=error_angle, error_axis=error_axis)
@@ -53,7 +53,7 @@ if __name__ == '__main__':
     # Like
     # Batch - Cluster(2) Clicks 00/11
     # Best is --+ worst is -+-
-    # runOverPMCombinations(fi, fp, fm, cluster_size=2, clicks='00', fusions_amount=3)
+    runOverPMCombinations(fi, fp, fm, cluster_size=2, clicks='00', fusions_amount=3)
     # Best is -+---- worst is -+-+-+
     # runOverPMCombinations(fi, fp, fm, cluster_size=2, clicks='00', fusions_amount=6)
     # runOverPMCombinations(fi, fp, fm, cluster_size=2, clicks='00', fusions_amount=8)
@@ -81,7 +81,7 @@ if __name__ == '__main__':
 
     # Batch - Cluster(3) Clicks 00 Even/Odd
     # Worst ------, Best ++++++
-    runOverPMCombinations(fi, fp, fm, cluster_size=3, clicks='00', fusions_amount=6)
+    # runOverPMCombinations(fi, fp, fm, cluster_size=3, clicks='00', fusions_amount=6)
     # runOverPMCombinations(fi, fp, fm, cluster_size=3, clicks='00', fusions_amount=4)
     # runOverPMCombinations(fi, fp, fm, cluster_size=3, clicks='00', fusions_amount=5)
     # runOverPMCombinations(fi, fp, fm, cluster_size=3, clicks='00', fusions_amount=7)
