@@ -1,4 +1,4 @@
-SYMBOLIC = True
+SYMBOLIC = False
 import sympy as sp
 from sympy.physics.quantum import TensorProduct
 import numpy as np
@@ -7,6 +7,10 @@ from sympy.core.rules import Transform
 
 from FusionGate import FusionGate
 
+I = np.eye(2)
+X = np.array([[0, 1], [1, 0]])
+Y = np.array([[0, -1j], [1j, 0]])
+Z = np.array([[1, 0], [0, -1]])
 
 class Cluster:
 
@@ -47,6 +51,14 @@ class Cluster:
             if b[n1] == '1' and b[n2] == '1':
                 x[i] = -x[i]
         return x
+
+    def rotate(self, index, theta, axis):
+        matrix1 = np.eye(2**index)
+        matrix2 = np.cos(theta / 2) * I + 1j * np.sin(theta / 2) * \
+                  (axis[0] * X + axis[1] * Y + axis[2] * Z)
+        matrix3 = np.eye(2**(int(np.log2(len(self.q_state)))-index-1))
+        matrix_total = np.kron(matrix1, np.kron(matrix2, matrix3))
+        self.q_state = np.matmul(matrix_total,self.q_state)
 
     def fusion(self, other, fusion_gate, clicks):
         # clicks - '00'/'01'/'10'/'11'
@@ -96,10 +108,14 @@ class Cluster:
         return Cluster(new_c_q_state)
 
     @staticmethod
-    def fuseLinearClusters(size_of_cluster, clicks, fusions):
+    def fuseLinearClusters(size_of_cluster, clicks, fusions, rot_state_angle=0, rot_state_axis=[1,0,0]):
         c_out = Cluster(size_of_cluster)
+        c_out.rotate(1, rot_state_angle, rot_state_axis)
         for i in range(1, len(fusions)+1):
-            c_out = c_out.fusion(other=Cluster(size_of_cluster), fusion_gate=fusions[i - 1], clicks=clicks)
+            other_cluster = Cluster(size_of_cluster)
+            other_cluster.rotate(1, rot_state_angle, rot_state_axis)
+            c_out = c_out.fusion(other=Cluster(size_of_cluster),
+                                 fusion_gate=fusions[i - 1], clicks=clicks)
         return c_out
 
     def __str__(self):

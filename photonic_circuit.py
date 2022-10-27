@@ -1,4 +1,4 @@
-SYMBOLIC = True
+SYMBOLIC = False
 import sympy as sp
 import numpy as np
 

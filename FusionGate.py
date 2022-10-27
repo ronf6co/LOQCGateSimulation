@@ -1,4 +1,4 @@
-SYMBOLIC = True
+SYMBOLIC = False
 
 import sympy as sp
 import numpy as np
@@ -46,7 +46,7 @@ class FusionGate:
             self.error_angle = error_angle
 
             self.R_error = np.cos(error_angle / 2) * I + 1j * np.sin(error_angle / 2) * \
-                           (error_axis[0] * X + error_axis[0] * Y + error_axis[0] * Z)
+                           (error_axis[0] * X + error_axis[1] * Y + error_axis[2] * Z)
             X_sqrt = np.cos(np.pi / 4) * I - np.sin(np.pi / 4) * 1j * X
 
             circuit = PhotonicCircuit(4)
