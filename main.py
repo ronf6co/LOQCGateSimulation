@@ -44,7 +44,7 @@ def runOverPMCombinations(fi,fp,fm,cluster_size,clicks,fusions_amount, rot_state
 
 if __name__ == '__main__':
     print("Init Fusion Gates...")
-
+# a
     error_angle = 0.1
     error_axis = [0, 1, 0]
     fm = FusionGate(error_angle=-error_angle, error_axis=error_axis)
