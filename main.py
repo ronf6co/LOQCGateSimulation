@@ -36,7 +36,7 @@ def runOverPMCombinations(fi,fp,fm,cluster_size,clicks,fusions_amount, rot_state
             best_case = c12pm - c12i
             best_case_raw = b
 
-    print("Naive dist from ideal : " + str(c12naive - c12i))
+    print("Naive (00..0) dist from ideal : " + str(c12naive - c12i))
 
     print("Worst case is : " + worst_case_raw + " value: " + str(worst_case))
     print("Best case is : " + best_case_raw + " value: " + str(best_case))

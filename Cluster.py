@@ -109,14 +109,26 @@ class Cluster:
 
     @staticmethod
     def fuseLinearClusters(size_of_cluster, clicks, fusions, rot_state_angle=0, rot_state_axis=[1,0,0]):
-        c_out = Cluster(size_of_cluster)
-        c_out.rotate(1, rot_state_angle, rot_state_axis)
-        for i in range(1, len(fusions)+1):
-            other_cluster = Cluster(size_of_cluster)
-            other_cluster.rotate(1, rot_state_angle, rot_state_axis)
-            c_out = c_out.fusion(other=Cluster(size_of_cluster),
-                                 fusion_gate=fusions[i - 1], clicks=clicks)
-        return c_out
+        if isinstance(size_of_cluster, list):
+            # assert(len(size_of_cluster) == len(fusions)+1)
+            c_out = Cluster(size_of_cluster[0])
+            c_out.rotate(1, rot_state_angle, rot_state_axis)
+            for i in range(1, len(fusions) + 1):
+                other_cluster = Cluster(size_of_cluster[i])
+                other_cluster.rotate(1, rot_state_angle, rot_state_axis)
+                c_out = c_out.fusion(other=other_cluster,
+                                     fusion_gate=fusions[i - 1], clicks=clicks)
+            return c_out
+        else:
+            c_out = Cluster(size_of_cluster)
+            c_out.rotate(1, rot_state_angle, rot_state_axis)
+            for i in range(1, len(fusions)+1):
+                other_cluster = Cluster(size_of_cluster)
+                other_cluster.rotate(1, rot_state_angle, rot_state_axis)
+                c_out = c_out.fusion(other=Cluster(size_of_cluster),
+                                     fusion_gate=fusions[i - 1], clicks=clicks)
+            return c_out
+
 
     def __str__(self):
         s = ""
