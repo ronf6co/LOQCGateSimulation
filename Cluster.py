@@ -57,6 +57,35 @@ class Cluster:
                 x[i] = -x[i]
         return x
 
+    def close_loop(self):
+        n_qubits = int(np.log2(len(self.q_state)))
+        self.q_state = Cluster.CZ(self.q_state, 0, n_qubits-1)
+
+    def fuse_loop(self, fusion_gate, clicks):
+        if SYMBOLIC:
+            raise NotImplementedError()
+        else:
+
+            n1 = int(np.log2(len(self.q_state)))-1
+            U1 = np.eye(2 ** n1)
+            n2 = int(np.log2(len(other.q_state)))-1
+            U2 = np.eye(2 ** n2)
+
+            new_c_q_state = np.kron(self.q_state, other.q_state)
+
+            ZZ = fusion_gate.U[int(clicks, 2)]
+
+            U = np.kron(U1, ZZ)
+            U = np.kron(U, U2)
+            new_c_q_state = np.matmul(U, new_c_q_state)
+            normalize = np.sqrt(sum(np.multiply(new_c_q_state, np.conj(new_c_q_state))))
+            new_c_q_state = new_c_q_state / normalize
+
+            phase1 = np.angle(new_c_q_state[0])
+            new_c_q_state = new_c_q_state * np.exp(-1j * phase1)
+
+        return Cluster(new_c_q_state)
+
     def rotate(self, index, theta, axis):
         matrix1 = np.eye(2 ** index)
         matrix2 = np.cos(theta / 2) * I + 1j * np.sin(theta / 2) * \
