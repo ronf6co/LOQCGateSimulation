@@ -53,7 +53,7 @@ def runOverPMCombinations(fi, fp, fm, cluster_size, clicks, fusions_amount,
         if c12pm - c12i < 0.0178:
             print("for: "+str(b)+" PM dist from ideal : " + str(c12pm - c12i))
             print(
-                "דוצ: " + str(b) + " PM dist from ideal : " + str(c12pm - c12i))
+                "for: " + str(b) + " PM dist from ideal : " + str(c12pm - c12i))
         if c12pm - c12i > worst_case:
             worst_case = c12pm - c12i
             worst_case_raw = b
@@ -136,13 +136,19 @@ if __name__ == '__main__':
     # # print("Naive dist from ideal : " + str(c12naive - c12i))
     #
     for clicks in ["00"]:
-        for mini_c_size in [2]:
-            for fusions_amount in range(8, 9):
+        for mini_c_size in [3]:
+            for fusions_amount in range(2, 3):
                 runOverPMCombinations(fi, fp, fm, cluster_size=mini_c_size,
                                       clicks=clicks,
                                       fusions_amount=fusions_amount,
                                       rot_state_angle=0,
                                       rot_state_axis=[1, 0, 0])
+
+                c12i = Cluster.fuseLinearClusters(size_of_cluster=cluster_size,
+                                                  clicks=clicks,
+                                                  fusions=[fi] * fusions_amount,
+                                                  rot_state_angle=rot_state_angle,
+                                                  rot_state_axis=rot_state_axis)
     #
     # for clicks in ["00", "01", "10", "11"]:
     #     for mini_c_size in [3]:

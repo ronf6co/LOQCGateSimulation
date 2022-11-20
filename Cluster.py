@@ -197,7 +197,7 @@ class Cluster:
     def __sub__(self, other):
 
         diff_mat = self.U - other.U
-        return np.abs(np.sqrt(
+        return (np.sqrt(
             np.trace(np.matmul(diff_mat, np.conj(np.transpose(diff_mat))))))
 
         # yaron = (1/len(self.U))*np.trace(np.matmul(np.conj(np.transpose(self.U)), (self.U-other.U)))

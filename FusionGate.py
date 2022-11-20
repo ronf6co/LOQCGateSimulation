@@ -39,7 +39,7 @@ class FusionGate:
             circuit = PhotonicCircuit(4)
             circuit.apply_coupler(X_sqrt * self.R_error, 0, 1)
             circuit.apply_coupler(X_sqrt * self.R_error, 2, 3)
-            circuit.apply_coupler(-1j * X_sqrt * self.R_error, 1, 2)
+            circuit.apply_coupler(-1j * X * self.R_error, 1, 2)
             circuit.apply_coupler(X_sqrt * self.R_error, 0, 1)
             circuit.apply_coupler(X_sqrt * self.R_error, 2, 3)
             self.basis = [[0, 2], [0, 3], [1, 2], [1, 3]]
@@ -250,6 +250,6 @@ class FusionGate:
 
         book.save(filename=result_file_name)
 #
-FusionGate.findBestPMCombinationFusion(0.2, [1,0,0])
-FusionGate.findBestPMCombinationFusion(0.2, [0,1,0])
-FusionGate.findBestPMCombinationFusion(0.2, [0,0,1])
+# FusionGate.findBestPMCombinationFusion(0.2, [1,0,0])
+# FusionGate.findBestPMCombinationFusion(0.2, [0,1,0])
+# FusionGate.findBestPMCombinationFusion(0.2, [0,0,1])
